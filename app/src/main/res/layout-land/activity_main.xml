@@ -217,8 +217,9 @@
     <Button
         android:layout_width="110dp"
         android:layout_height="50dp"
-        android:text="X"
-        android:textSize="25dp"
+        android:text="DELETE"
+        android:onClick="onClick"
+        android:textSize="17dp"
         android:textColor="#ff217dff"
         android:id="@+id/button20"
         android:layout_below="@+id/button19"

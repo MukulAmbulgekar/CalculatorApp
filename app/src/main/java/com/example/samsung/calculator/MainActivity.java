@@ -8,20 +8,19 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import static com.example.samsung.calculator.R.id.editText;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    private Button button;
+
     private TextView t;
-    String buttonText="";
-    private String number1;
-    private String number2;
+    String buttonText = "0";
+    private String number1 = "0";
+    private String number2 = "0";
     private float result;
-    private String operator;
+    private String operator = "";
+    boolean equal_pressed = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,78 +31,116 @@ public class MainActivity extends ActionBarActivity {
 
     public void onClick(View v) {
 
-        Button b = (Button)v;
+        Button b = (Button) v;
+        t = (TextView) findViewById(R.id.editText);
         //System.out.println("Value"+b.getText().toString());
-        if (b.getText().equals("+")|| b.getText().equals("-")||b.getText().equals("*")|| b.getText().equals("/")){
-            System.out.println("In operator"+b.getText().toString());
-            operator=b.getText().toString();
-            number1=buttonText;
 
-            t=(TextView) findViewById(R.id.editText);
-            buttonText="";
-            t.setText(null);
+
+        if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("*") || b.getText().equals("/")) && (!t.getText().toString().equals(""))) {
+            equal_pressed = false;
+            if (operator.equals(b.getText().toString()))
+
+                System.out.println("In operator" + b.getText().toString());
+            operator = b.getText().toString();
+            number1 = buttonText;
+
+
+            buttonText = "0";
+            t.setText("");
             System.out.println("First Number " + number1);
-        }
-        else if(b.getText().toString().equals("=")){
 
 
-            if (operator!=null)
-            {
+        } else if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("*") || b.getText().equals("/")) && (t.getText().toString().equals(""))) {
+            equal_pressed = false;
+            operator = b.getText().toString();
+
+        } else if (b.getText().toString().equals("=")) {
+
+            equal_pressed = true;
+            if (operator != null) {
                 number2 = buttonText;
 
-                System.out.println("Second n Number " + Float.parseFloat(number2));
+                // System.out.println("Second n Number " + Float.parseFloat(number2));
                 if (operator.equals("+")) {
                     result = Float.parseFloat(number1) + Float.parseFloat(number2);
                     System.out.println("Addition " + String.valueOf(result));
-                    t = (TextView) findViewById(R.id.editText);
+
                     t.setText(String.valueOf(result));
                     buttonText = String.valueOf(result);
+                    operator = "";
+
                 } else if (operator.equals("-")) {
                     result = Float.parseFloat(number1) - Float.parseFloat(number2);
                     System.out.println("Subtraction " + String.valueOf(result));
                     t = (TextView) findViewById(R.id.editText);
                     t.setText(String.valueOf(result));
                     buttonText = String.valueOf(result);
+                    operator = "";
                 } else if (operator.equals("*")) {
                     result = Float.parseFloat(number1) * Float.parseFloat(number2);
                     System.out.println("Subtraction " + String.valueOf(result));
-                    t = (TextView) findViewById(R.id.editText);
+
                     t.setText(String.valueOf(result));
                     buttonText = String.valueOf(result);
+                    operator = "";
                 } else if (operator.equals("/")) {
-                    if(number2.equals("0")){
+                    if (number2.equals("0")) {
 
                         t.setText("Can Not Divide by Zero");
-                    }
-                    else {
+                    } else {
                         result = Float.parseFloat(number1) / Float.parseFloat(number2);
                         System.out.println("Subtraction " + String.valueOf(result));
-                        t = (TextView) findViewById(R.id.editText);
+
                         t.setText(String.valueOf(result));
                         buttonText = String.valueOf(result);
+                        operator = "";
                     }
                 }
-            }
-            else{
-                number1=buttonText;
-                t = (TextView) findViewById(R.id.editText);
+            } else {
+
+                number1 = buttonText;
+
+
                 t.setText(buttonText);
 
             }
-        }
-        else if(b.getText().toString().equals("C")){
-            t=(TextView) findViewById(R.id.editText);
-            buttonText="";
-            number1="";
-            number2="";
+        } else if (b.getText().toString().equals("C")) {
+            equal_pressed = false;
+            buttonText = "0";
+            number1 = "0";
+            number2 = "";
             t.setText(null);
-        }
-        else {
-            System.out.println("Value"+b.getText().toString());
-            buttonText = buttonText + b.getText().toString();
-            t = (TextView) findViewById(R.id.editText);
+        } else if (b.getText().toString().equals("DELETE")) {
+            equal_pressed = false;
+            System.out.println("In Delete");
+            buttonText = buttonText.substring(0, buttonText.length() - 1);
+
             t.setText(buttonText);
+        } else {
+            if (buttonText.contains(".") && b.getText().equals(".")) {
+
+                t = (TextView) findViewById(R.id.editText);
+                t.setText(buttonText);
+            } else if (equal_pressed) {
+                buttonText = "";
+                buttonText = buttonText + b.getText().toString();
+                t = (TextView) findViewById(R.id.editText);
+                t.setText(buttonText);
+
+            } else {
+                System.out.println("Value" + b.getText().toString());
+                if (buttonText.equals("0")) {
+                    buttonText = b.getText().toString();
+                    t = (TextView) findViewById(R.id.editText);
+                    t.setText(buttonText);
+                } else {
+                    buttonText = buttonText + b.getText().toString();
+                    t = (TextView) findViewById(R.id.editText);
+                    t.setText(buttonText);
+                }
+            }
         }
+
     }
 
 
