@@ -1,10 +1,10 @@
 package com.example.samsung.calculator;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
-import android.view.View;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -12,13 +12,13 @@ import android.widget.TextView;
 public class MainActivity extends ActionBarActivity {
 
 
-    private TextView t;
     String buttonText = "0";
+    boolean equal_pressed = false;
+    private TextView t;
     private String number1 = "0";
     private String number2 = "0";
     private float result;
     private String operator = "";
-    boolean equal_pressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +36,9 @@ public class MainActivity extends ActionBarActivity {
 
         if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("x") || b.getText().equals("/")) && (!t.getText().toString().equals(""))) {
             equal_pressed = false;
-            if (operator.equals(b.getText().toString()))
 
-                System.out.println("In operator" + b.getText().toString());
+
+            System.out.println("In operator" + b.getText().toString());
             operator = b.getText().toString();
             number1 = buttonText;
 
@@ -120,11 +120,16 @@ public class MainActivity extends ActionBarActivity {
                 t = (TextView) findViewById(R.id.editText);
                 t.setText(buttonText);
             } else if (equal_pressed) {
+                System.out.println("Equal pressed");
                 buttonText = "";
                 buttonText = buttonText + b.getText().toString();
                 t = (TextView) findViewById(R.id.editText);
                 t.setText(buttonText);
+                equal_pressed = false;
 
+            } else if (b.getText().equals(".") && (t.getText().toString().equals("0") || t.getText().toString().equals(""))) {
+                buttonText = "0" + b.getText().toString();
+                t.setText(buttonText);
             } else {
                 System.out.println("Value" + b.getText().toString());
                 if (buttonText.equals("0")) {
