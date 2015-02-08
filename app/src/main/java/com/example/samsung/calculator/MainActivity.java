@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-
 public class MainActivity extends ActionBarActivity {
 
 
@@ -30,13 +29,12 @@ public class MainActivity extends ActionBarActivity {
 
 
     public void onClick(View v) {
-
         Button b = (Button) v;
         t = (TextView) findViewById(R.id.editText);
         //System.out.println("Value"+b.getText().toString());
 
 
-        if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("*") || b.getText().equals("/")) && (!t.getText().toString().equals(""))) {
+        if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("x") || b.getText().equals("/")) && (!t.getText().toString().equals(""))) {
             equal_pressed = false;
             if (operator.equals(b.getText().toString()))
 
@@ -50,7 +48,7 @@ public class MainActivity extends ActionBarActivity {
             System.out.println("First Number " + number1);
 
 
-        } else if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("*") || b.getText().equals("/")) && (t.getText().toString().equals(""))) {
+        } else if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("x") || b.getText().equals("/")) && (t.getText().toString().equals(""))) {
             equal_pressed = false;
             operator = b.getText().toString();
 
@@ -76,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
                     t.setText(String.valueOf(result));
                     buttonText = String.valueOf(result);
                     operator = "";
-                } else if (operator.equals("*")) {
+                } else if (operator.equals("x")) {
                     result = Float.parseFloat(number1) * Float.parseFloat(number2);
                     System.out.println("Subtraction " + String.valueOf(result));
 
