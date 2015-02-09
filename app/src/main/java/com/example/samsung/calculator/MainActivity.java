@@ -17,7 +17,8 @@ public class MainActivity extends ActionBarActivity {
     private TextView t;
     private String number1 = "0";
     private String number2 = "0";
-    private float result;
+    private float result = 0;
+    private float temp_result = 0;
     private String operator = "";
 
     @Override
@@ -30,6 +31,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void onClick(View v) {
         Button b = (Button) v;
+
         t = (TextView) findViewById(R.id.editText);
         //System.out.println("Value"+b.getText().toString());
 
@@ -37,15 +39,53 @@ public class MainActivity extends ActionBarActivity {
         if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("x") || b.getText().equals("/")) && (!t.getText().toString().equals(""))) {
             equal_pressed = false;
 
+            if (operator.equals("")) {
+                System.out.println("In operator" + b.getText().toString());
+                operator = b.getText().toString();
+                number1 = number1 + buttonText;
 
-            System.out.println("In operator" + b.getText().toString());
-            operator = b.getText().toString();
-            number1 = buttonText;
 
+                buttonText = "0";
+                t.setText("");
+                System.out.println("First Number " + number1);
+            } else {
 
-            buttonText = "0";
-            t.setText("");
-            System.out.println("First Number " + number1);
+                if (operator.equals("+")) {
+                    operator = b.getText().toString();
+                    System.out.println("Repeat Operation:" + operator);
+                    number1 = Float.toString(Float.parseFloat(number1) + Float.parseFloat(buttonText));
+                    System.out.println("Number Operation:" + number1 + " " + buttonText);
+                    buttonText = "0";
+                    t.setText("");
+                } else if (operator.equals("-")) {
+                    operator = b.getText().toString();
+                    System.out.println("Repeat Operation:" + operator);
+                    number1 = Float.toString(Float.parseFloat(number1) - Float.parseFloat(buttonText));
+                    System.out.println("Number Operation:" + number1 + " " + buttonText);
+                    buttonText = "0";
+                    t.setText("");
+                } else if (operator.equals("x")) {
+                    operator = b.getText().toString();
+                    System.out.println("Repeat Operation:" + operator);
+                    number1 = Float.toString(Float.parseFloat(number1) * Float.parseFloat(buttonText));
+                    System.out.println("Number Operation:" + number1 + " " + buttonText);
+                    buttonText = "0";
+                    t.setText("");
+                } else if (operator.equals("/")) {
+
+                    if (number2.equals("0")) {
+
+                        t.setText("Can Not Divide by Zero");
+                    } else {
+                        operator = b.getText().toString();
+                        System.out.println("Repeat Operation:" + operator);
+                        number1 = Float.toString(Float.parseFloat(number1) / Float.parseFloat(buttonText));
+                        System.out.println("Number Operation:" + number1 + " " + buttonText);
+                        buttonText = "0";
+                        t.setText("");
+                    }
+                }
+            }
 
 
         } else if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("x") || b.getText().equals("/")) && (t.getText().toString().equals(""))) {
@@ -58,14 +98,15 @@ public class MainActivity extends ActionBarActivity {
             if (operator != null) {
                 number2 = buttonText;
 
-                // System.out.println("Second n Number " + Float.parseFloat(number2));
+                System.out.println("Second n Number " + Float.parseFloat(number2));
                 if (operator.equals("+")) {
-                    result = Float.parseFloat(number1) + Float.parseFloat(number2);
+                    result = Float.parseFloat(number1) + Float.parseFloat(number2) + temp_result;
                     System.out.println("Addition " + String.valueOf(result));
 
                     t.setText(String.valueOf(result));
                     buttonText = String.valueOf(result);
                     operator = "";
+                    number1 = "0";
 
                 } else if (operator.equals("-")) {
                     result = Float.parseFloat(number1) - Float.parseFloat(number2);
@@ -74,24 +115,27 @@ public class MainActivity extends ActionBarActivity {
                     t.setText(String.valueOf(result));
                     buttonText = String.valueOf(result);
                     operator = "";
+                    number1 = "0";
                 } else if (operator.equals("x")) {
                     result = Float.parseFloat(number1) * Float.parseFloat(number2);
-                    System.out.println("Subtraction " + String.valueOf(result));
+                    System.out.println("Multiplication " + String.valueOf(result));
 
                     t.setText(String.valueOf(result));
                     buttonText = String.valueOf(result);
                     operator = "";
+                    number1 = "0";
                 } else if (operator.equals("/")) {
                     if (number2.equals("0")) {
 
                         t.setText("Can Not Divide by Zero");
                     } else {
                         result = Float.parseFloat(number1) / Float.parseFloat(number2);
-                        System.out.println("Subtraction " + String.valueOf(result));
+                        System.out.println("Division " + String.valueOf(result));
 
                         t.setText(String.valueOf(result));
                         buttonText = String.valueOf(result);
                         operator = "";
+                        number1 = "0";
                     }
                 }
             } else {
@@ -100,6 +144,7 @@ public class MainActivity extends ActionBarActivity {
 
 
                 t.setText(buttonText);
+                operator = "";
 
             }
         } else if (b.getText().toString().equals("C")) {
@@ -107,6 +152,7 @@ public class MainActivity extends ActionBarActivity {
             buttonText = "0";
             number1 = "0";
             number2 = "";
+            operator = "";
             t.setText(null);
         } else if (b.getText().toString().equals("DELETE")) {
             equal_pressed = false;
