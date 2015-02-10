@@ -95,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
             }
 
 
-        } else if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("x") || b.getText().equals("÷")) && (t.getText().toString().equals(""))) {
+        } else if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("x") || b.getText().equals("÷") || b.getText().equals("^")) && (t.getText().toString().equals(""))) {
             equal_pressed = false;
             operator = b.getText().toString();
 
@@ -118,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
                 } else if (operator.equals("-")) {
                     result = Float.parseFloat(number1) - Float.parseFloat(number2);
                     System.out.println("Subtraction " + String.valueOf(result));
-                    t = (TextView) findViewById(R.id.editText);
+
                     t.setText(String.valueOf(result));
                     buttonText = String.valueOf(result);
                     operator = "";
@@ -289,7 +289,7 @@ public class MainActivity extends ActionBarActivity {
             number1 = "0";
             number2 = "0";
             operator = "";
-            t.setText(null);
+            t.setText("0");
         } else if (b.getText().toString().equals("DELETE")) {
             equal_pressed = false;
             System.out.println("In Delete");
@@ -303,13 +303,20 @@ public class MainActivity extends ActionBarActivity {
         } else {
             if (buttonText.contains(".") && b.getText().equals(".")) {
 
-                t = (TextView) findViewById(R.id.editText);
-                t.setText(buttonText);
+                if (!equal_pressed) {
+                    t.setText(buttonText);
+
+                } else {
+                    buttonText = "0" + b.getText().toString();
+                    t.setText(buttonText);
+                    equal_pressed = false;
+
+                }
             } else if (equal_pressed) {
                 System.out.println("Equal pressed");
                 buttonText = "";
                 buttonText = buttonText + b.getText().toString();
-                t = (TextView) findViewById(R.id.editText);
+
                 t.setText(buttonText);
                 equal_pressed = false;
 
@@ -320,11 +327,11 @@ public class MainActivity extends ActionBarActivity {
                 //System.out.println("Value" + b.getText().toString());
                 if (buttonText.equals("0")) {
                     buttonText = b.getText().toString();
-                    t = (TextView) findViewById(R.id.editText);
+
                     t.setText(buttonText);
                 } else {
                     buttonText = buttonText + b.getText().toString();
-                    t = (TextView) findViewById(R.id.editText);
+
                     t.setText(buttonText);
                 }
             }
