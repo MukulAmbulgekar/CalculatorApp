@@ -36,11 +36,11 @@ public class MainActivity extends ActionBarActivity {
         //System.out.println("Value"+b.getText().toString());
 
 
-        if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("x") || b.getText().equals("/")) && (!t.getText().toString().equals(""))) {
+        if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("x") || b.getText().equals("÷") || b.getText().equals("^")) && (!t.getText().toString().equals(""))) {
             equal_pressed = false;
 
             if (operator.equals("")) {
-                System.out.println("In operator" + b.getText().toString());
+                System.out.println("Operator" + b.getText().toString());
                 operator = b.getText().toString();
                 number1 = number1 + buttonText;
 
@@ -54,24 +54,24 @@ public class MainActivity extends ActionBarActivity {
                     operator = b.getText().toString();
                     System.out.println("Repeat Operation:" + operator);
                     number1 = Float.toString(Float.parseFloat(number1) + Float.parseFloat(buttonText));
-                    System.out.println("Number Operation:" + number1 + " " + buttonText);
+                    System.out.println("First Number:" + number1 + " " + buttonText);
                     buttonText = "0";
                     t.setText("");
                 } else if (operator.equals("-")) {
                     operator = b.getText().toString();
                     System.out.println("Repeat Operation:" + operator);
                     number1 = Float.toString(Float.parseFloat(number1) - Float.parseFloat(buttonText));
-                    System.out.println("Number Operation:" + number1 + " " + buttonText);
+                    System.out.println("First Number:" + number1 + " " + buttonText);
                     buttonText = "0";
                     t.setText("");
                 } else if (operator.equals("x")) {
                     operator = b.getText().toString();
                     System.out.println("Repeat Operation:" + operator);
                     number1 = Float.toString(Float.parseFloat(number1) * Float.parseFloat(buttonText));
-                    System.out.println("Number Operation:" + number1 + " " + buttonText);
+                    System.out.println("First Number:" + number1 + " " + buttonText);
                     buttonText = "0";
                     t.setText("");
-                } else if (operator.equals("/")) {
+                } else if (operator.equals("÷")) {
 
                     if (number2.equals("0")) {
 
@@ -80,15 +80,22 @@ public class MainActivity extends ActionBarActivity {
                         operator = b.getText().toString();
                         System.out.println("Repeat Operation:" + operator);
                         number1 = Float.toString(Float.parseFloat(number1) / Float.parseFloat(buttonText));
-                        System.out.println("Number Operation:" + number1 + " " + buttonText);
+                        System.out.println("First Number:" + number1 + " " + buttonText);
                         buttonText = "0";
                         t.setText("");
                     }
+                } else if (operator.equals("^")) {
+                    operator = b.getText().toString();
+                    System.out.println("Repeat Operation:" + operator);
+                    number1 = Double.toString(Math.pow(Double.parseDouble(number1), Double.parseDouble(buttonText)));
+                    System.out.println("First Number:" + number1 + " " + buttonText);
+                    buttonText = "0";
+                    t.setText("");
                 }
             }
 
 
-        } else if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("x") || b.getText().equals("/")) && (t.getText().toString().equals(""))) {
+        } else if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("x") || b.getText().equals("÷")) && (t.getText().toString().equals(""))) {
             equal_pressed = false;
             operator = b.getText().toString();
 
@@ -98,7 +105,7 @@ public class MainActivity extends ActionBarActivity {
             if (operator != null) {
                 number2 = buttonText;
 
-                System.out.println("Second n Number " + Float.parseFloat(number2));
+                System.out.println("Second Number " + Float.parseFloat(number2));
                 if (operator.equals("+")) {
                     result = Float.parseFloat(number1) + Float.parseFloat(number2) + temp_result;
                     System.out.println("Addition " + String.valueOf(result));
@@ -124,7 +131,7 @@ public class MainActivity extends ActionBarActivity {
                     buttonText = String.valueOf(result);
                     operator = "";
                     number1 = "0";
-                } else if (operator.equals("/")) {
+                } else if (operator.equals("÷")) {
                     if (number2.equals("0")) {
 
                         t.setText("Can Not Divide by Zero");
@@ -137,7 +144,17 @@ public class MainActivity extends ActionBarActivity {
                         operator = "";
                         number1 = "0";
                     }
+                } else if (operator.equals("^")) {
+                    // result = Float.parseFloat(number1) * Float.parseFloat(number2);
+                    System.out.println("Multiplication " + String.valueOf(Double.toString(Math.pow(Double.parseDouble(number1), Double.parseDouble(number2)))));
+
+                    t.setText(String.valueOf(Double.toString(Math.pow(Double.parseDouble(number1), Double.parseDouble(number2)))));
+                    buttonText = String.valueOf(Double.toString(Math.pow(Double.parseDouble(number1), Double.parseDouble(number2))));
+                    operator = "";
+                    number1 = "0";
                 }
+
+
             } else {
 
                 number1 = buttonText;
@@ -147,17 +164,140 @@ public class MainActivity extends ActionBarActivity {
                 operator = "";
 
             }
+        } else if (b.getText().toString().equals("√")) {
+
+            equal_pressed = true;
+            if (!number1.contains("-")) {
+                if (operator.equals("")) {
+                    number1 = buttonText;
+                    if (!number1.contains("-")) {
+                        t.setText(String.valueOf(Math.sqrt(Float.parseFloat(number1))));
+                        buttonText = String.valueOf(Math.sqrt(Float.parseFloat(number1)));
+                        operator = "";
+                        number1 = "0";
+                    } else {
+                        t.setText("Invalid Input");
+                        number1 = "0";
+                        number2 = "0";
+                        buttonText = "0";
+                        operator = "";
+                    }
+
+                } else {
+                    if (operator.equals("+")) {
+
+                        System.out.println("Repeat Operation:" + operator);
+                        number1 = Float.toString(Float.parseFloat(number1) + Float.parseFloat(buttonText));
+                        if (!number1.contains("-")) {
+                            t.setText(String.valueOf(Math.sqrt(Float.parseFloat(number1))));
+                            buttonText = String.valueOf(Math.sqrt(Float.parseFloat(number1)));
+                            System.out.println("First Number:" + number1 + " " + buttonText);
+                            operator = "";
+                            number1 = "0";
+                        } else {
+                            t.setText("Invalid Input");
+                            number1 = "0";
+                            number2 = "0";
+                            buttonText = "0";
+                            operator = "";
+                        }
+
+                    } else if (operator.equals("-")) {
+                        System.out.println("Repeat Operation:" + operator);
+                        number1 = Float.toString(Float.parseFloat(number1) - Float.parseFloat(buttonText));
+                        if (!number1.contains("-")) {
+                            t.setText(String.valueOf(Math.sqrt(Float.parseFloat(number1))));
+                            buttonText = String.valueOf(Math.sqrt(Float.parseFloat(number1)));
+                            System.out.println("First Number:" + number1 + " " + buttonText);
+                            operator = "";
+                            number1 = "0";
+
+                        } else {
+                            t.setText("Invalid Input");
+                            number1 = "0";
+                            number2 = "0";
+                            buttonText = "0";
+                            operator = "";
+                        }
+                    } else if (operator.equals("x")) {
+                        System.out.println("Repeat Operation:" + operator);
+                        number1 = Float.toString(Float.parseFloat(number1) * Float.parseFloat(buttonText));
+                        if (!number1.contains("-")) {
+                            t.setText(String.valueOf(Math.sqrt(Float.parseFloat(number1))));
+                            buttonText = String.valueOf(Math.sqrt(Float.parseFloat(number1)));
+                            System.out.println("First Number:" + number1 + " " + buttonText);
+                            operator = "";
+                            number1 = "0";
+                        } else {
+                            t.setText("Invalid Input");
+                            number1 = "0";
+                            number2 = "0";
+                            buttonText = "0";
+                            operator = "";
+                        }
+                    } else if (operator.equals("÷")) {
+
+                        if (number2.equals("0")) {
+
+                            t.setText("Can Not Divide by Zero");
+                        } else {
+                            System.out.println("Repeat Operation:" + operator);
+                            number1 = Float.toString(Float.parseFloat(number1) / Float.parseFloat(buttonText));
+                            if (!number1.contains("-")) {
+                                t.setText(String.valueOf(Math.sqrt(Float.parseFloat(number1))));
+                                buttonText = String.valueOf(Math.sqrt(Float.parseFloat(number1)));
+                                System.out.println("First Number:" + number1 + " " + buttonText);
+                                operator = "";
+                                number1 = "0";
+                            } else {
+                                t.setText("Invalid Input");
+                                number1 = "0";
+                                number2 = "0";
+                                buttonText = "0";
+                                operator = "";
+                            }
+                        }
+                    } else if (operator.equals("^")) {
+                        System.out.println("Repeat Operation:" + operator);
+                        number1 = Double.toString(Math.pow(Double.parseDouble(number1), Double.parseDouble(buttonText)));
+                        if (!number1.contains("-")) {
+                            t.setText(String.valueOf(Math.sqrt(Float.parseFloat(number1))));
+                            buttonText = String.valueOf(Math.sqrt(Float.parseFloat(number1)));
+                            System.out.println("First Number:" + number1 + " " + buttonText);
+                            operator = "";
+                            number1 = "0";
+                        } else {
+                            t.setText("Invalid Input");
+                            number1 = "0";
+                            number2 = "0";
+                            buttonText = "0";
+                            operator = "";
+                        }
+                    }
+
+                }
+            } else {
+                t.setText("Invalid Input");
+                number1 = "0";
+                number2 = "0";
+                buttonText = "0";
+                operator = "";
+            }
         } else if (b.getText().toString().equals("C")) {
             equal_pressed = false;
             buttonText = "0";
             number1 = "0";
-            number2 = "";
+            number2 = "0";
             operator = "";
             t.setText(null);
         } else if (b.getText().toString().equals("DELETE")) {
             equal_pressed = false;
             System.out.println("In Delete");
-            buttonText = buttonText.substring(0, buttonText.length() - 1);
+            if (buttonText.length() > 0) {
+                buttonText = buttonText.substring(0, buttonText.length() - 1);
+            } else {
+                buttonText = "";
+            }
 
             t.setText(buttonText);
         } else {
@@ -177,7 +317,7 @@ public class MainActivity extends ActionBarActivity {
                 buttonText = "0" + b.getText().toString();
                 t.setText(buttonText);
             } else {
-                System.out.println("Value" + b.getText().toString());
+                //System.out.println("Value" + b.getText().toString());
                 if (buttonText.equals("0")) {
                     buttonText = b.getText().toString();
                     t = (TextView) findViewById(R.id.editText);
