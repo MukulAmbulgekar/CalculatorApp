@@ -74,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
                 } else if (operator.equals("÷")) {
 
                     if (buttonText.equals("0")) {
-                        
+
                         t.setText("Can Not Divide by Zero");
                     } else {
                         operator = b.getText().toString();
@@ -90,7 +90,7 @@ public class MainActivity extends ActionBarActivity {
                     number1 = Double.toString(Math.pow(Double.parseDouble(number1), Double.parseDouble(buttonText)));
                     System.out.println("First Number:" + number1 + " " + buttonText);
                     buttonText = "0";
-                    t.setText("");
+                    t.setText(number1);
                 }
             }
 
