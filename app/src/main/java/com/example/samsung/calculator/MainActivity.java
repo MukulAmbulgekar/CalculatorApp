@@ -56,25 +56,25 @@ public class MainActivity extends ActionBarActivity {
                     number1 = Float.toString(Float.parseFloat(number1) + Float.parseFloat(buttonText));
                     System.out.println("First Number:" + number1 + " " + buttonText);
                     buttonText = "0";
-                    t.setText("");
+                    t.setText(number1);
                 } else if (operator.equals("-")) {
                     operator = b.getText().toString();
                     System.out.println("Repeat Operation:" + operator);
                     number1 = Float.toString(Float.parseFloat(number1) - Float.parseFloat(buttonText));
                     System.out.println("First Number:" + number1 + " " + buttonText);
                     buttonText = "0";
-                    t.setText("");
+                    t.setText(number1);
                 } else if (operator.equals("x")) {
                     operator = b.getText().toString();
                     System.out.println("Repeat Operation:" + operator);
                     number1 = Float.toString(Float.parseFloat(number1) * Float.parseFloat(buttonText));
                     System.out.println("First Number:" + number1 + " " + buttonText);
                     buttonText = "0";
-                    t.setText("");
+                    t.setText(number1);
                 } else if (operator.equals("÷")) {
 
-                    if (number2.equals("0")) {
-
+                    if (buttonText.equals("0")) {
+                        
                         t.setText("Can Not Divide by Zero");
                     } else {
                         operator = b.getText().toString();
@@ -82,7 +82,7 @@ public class MainActivity extends ActionBarActivity {
                         number1 = Float.toString(Float.parseFloat(number1) / Float.parseFloat(buttonText));
                         System.out.println("First Number:" + number1 + " " + buttonText);
                         buttonText = "0";
-                        t.setText("");
+                        t.setText(number1);
                     }
                 } else if (operator.equals("^")) {
                     operator = b.getText().toString();
