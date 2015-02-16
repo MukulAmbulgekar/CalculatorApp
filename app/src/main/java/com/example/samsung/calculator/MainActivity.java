@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -28,28 +29,58 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("buttontext", buttonText);
+        savedInstanceState.putBoolean("equal_pressed", equal_pressed);
+        savedInstanceState.putString("number1", number1);
+        savedInstanceState.putString("number2", number2);
+        savedInstanceState.putFloat("result", result);
+        savedInstanceState.putFloat("temp_result", temp_result);
+        savedInstanceState.putString("operator", operator);
+    }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        buttonText = savedInstanceState.getString("buttontext");
+        equal_pressed = savedInstanceState.getBoolean("equal_pressed");
+        number1 = savedInstanceState.getString("number1");
+        number2 = savedInstanceState.getString("number2");
+        result = savedInstanceState.getFloat("result");
+        temp_result = savedInstanceState.getFloat("temp_result");
+        operator = savedInstanceState.getString("operator");
+    }
     public void onClick(View v) {
         Button b = (Button) v;
-
+// Retrieving edit text from UI id by using findViewById and passing edit text id.
         t = (TextView) findViewById(R.id.editText);
         //System.out.println("Value"+b.getText().toString());
 
+			/*Here I am checking button press in multiple else if conditions. 
+                First I am checking if any operator button is pressed.
+				If any operation button is pressed whatever is being displayed
+				on the screen will be stored in First Number and screen display will be cleared to enter  second number
 
+   */
         if ((b.getText().equals("+") || b.getText().equals("-") || b.getText().equals("x") || b.getText().equals("÷") || b.getText().equals("^")) && (!t.getText().toString().equals(""))) {
             equal_pressed = false;
 
             if (operator.equals("")) {
                 System.out.println("Operator" + b.getText().toString());
                 operator = b.getText().toString();
-                number1 = number1 + buttonText;
+                number1 = buttonText;
 
 
                 buttonText = "0";
                 t.setText("");
-                System.out.println("First Number " + number1);
-            } else {
 
+            }
+            /*Here I am checking whether it is sequential operation and if it is a sequential operation
+            then I am performing corresponding operation stored in operator variable. */
+            else {
+                // If previous operation is '+' addition will be performed
                 if (operator.equals("+")) {
                     operator = b.getText().toString();
                     System.out.println("Repeat Operation:" + operator);
@@ -57,14 +88,19 @@ public class MainActivity extends ActionBarActivity {
                     System.out.println("First Number:" + number1 + " " + buttonText);
                     buttonText = "0";
                     t.setText(number1);
-                } else if (operator.equals("-")) {
+                }
+                // If previous operation is '-' Multiplication will be performed
+                else if (operator.equals("-")) {
                     operator = b.getText().toString();
                     System.out.println("Repeat Operation:" + operator);
                     number1 = Float.toString(Float.parseFloat(number1) - Float.parseFloat(buttonText));
-                    System.out.println("First Number:" + number1 + " " + buttonText);
+
+                    System.out.println("First Number:" + number1);
                     buttonText = "0";
                     t.setText(number1);
-                } else if (operator.equals("x")) {
+                }
+                // If previous operation is '*' subtraction will be performed
+                else if (operator.equals("x")) {
                     operator = b.getText().toString();
                     System.out.println("Repeat Operation:" + operator);
                     number1 = Float.toString(Float.parseFloat(number1) * Float.parseFloat(buttonText));
@@ -72,11 +108,13 @@ public class MainActivity extends ActionBarActivity {
                     buttonText = "0";
                     t.setText(number1);
                 } else if (operator.equals("÷")) {
-
+                    // Checking for Divide by zero error
                     if (buttonText.equals("0")) {
 
                         t.setText("Can Not Divide by Zero");
-                    } else {
+                    }
+                    // If previous operation is '/' division will be performed
+                    else {
                         operator = b.getText().toString();
                         System.out.println("Repeat Operation:" + operator);
                         number1 = Float.toString(Float.parseFloat(number1) / Float.parseFloat(buttonText));
@@ -100,7 +138,10 @@ public class MainActivity extends ActionBarActivity {
             operator = b.getText().toString();
 
         } else if (b.getText().toString().equals("=")) {
-
+        /*
+        Whenever user presses = button operation is performed on two numbers as per the operation stored in variable
+         and result will be displayed on the screen.
+         */
             equal_pressed = true;
             if (operator != null) {
                 number2 = buttonText;
@@ -133,7 +174,7 @@ public class MainActivity extends ActionBarActivity {
                     number1 = "0";
                 } else if (operator.equals("÷")) {
                     if (number2.equals("0")) {
-
+                        // Checking for divide by zero error.
                         t.setText("Can Not Divide by Zero");
                     } else {
                         result = Float.parseFloat(number1) / Float.parseFloat(number2);
@@ -180,6 +221,7 @@ public class MainActivity extends ActionBarActivity {
                         number1 = "0";
                         number2 = "0";
                         buttonText = "0";
+                        operator = "";
                         operator = "";
                     }
 
@@ -284,6 +326,7 @@ public class MainActivity extends ActionBarActivity {
                 operator = "";
             }
         } else if (b.getText().toString().equals("C")) {
+            // On pressing Clear all button display text will be set to default value 0
             equal_pressed = false;
             buttonText = "0";
             number1 = "0";
@@ -291,6 +334,7 @@ public class MainActivity extends ActionBarActivity {
             operator = "";
             t.setText("0");
         } else if (b.getText().toString().equals("DELETE")) {
+            // Whenever delete is pressed display text is reduced by one character
             equal_pressed = false;
             System.out.println("In Delete");
             if (buttonText.length() > 0) {
@@ -306,7 +350,9 @@ public class MainActivity extends ActionBarActivity {
                 if (!equal_pressed) {
                     t.setText(buttonText);
 
-                } else {
+                }
+                // Whenever user presses point first time 0 will be padded before that decimal.
+                else {
                     buttonText = "0" + b.getText().toString();
                     t.setText(buttonText);
                     equal_pressed = false;
@@ -320,7 +366,9 @@ public class MainActivity extends ActionBarActivity {
                 t.setText(buttonText);
                 equal_pressed = false;
 
-            } else if (b.getText().equals(".") && (t.getText().toString().equals("0") || t.getText().toString().equals(""))) {
+            }
+            // Check for not allowing pressing . button twice if decimal point is already pressed once.
+            else if (b.getText().equals(".") && (t.getText().toString().equals("0") || t.getText().toString().equals(""))) {
                 buttonText = "0" + b.getText().toString();
                 t.setText(buttonText);
             } else {
@@ -330,9 +378,18 @@ public class MainActivity extends ActionBarActivity {
 
                     t.setText(buttonText);
                 } else {
-                    buttonText = buttonText + b.getText().toString();
+                    if (buttonText.length() <= 6) {
+                        /// Checking if input is greater than 7 digits.
+                        buttonText = buttonText + b.getText().toString();
+                        System.out.println(buttonText + "Length" + buttonText.length());
 
-                    t.setText(buttonText);
+                        t.setText(buttonText);
+                    } else {
+                        // if input is greater than 7 displaying error message
+
+                        Toast.makeText(this, "Maximum Length 7 Reached", Toast.LENGTH_SHORT).show();
+
+                    }
                 }
             }
         }
